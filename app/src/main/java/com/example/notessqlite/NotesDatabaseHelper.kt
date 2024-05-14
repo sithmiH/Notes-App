@@ -15,12 +15,13 @@ class NotesDatabaseHelper (context: Context) : SQLiteOpenHelper(context, DATABAS
         private const val COLUMN_TITLE = "title"
         private const val COLUMN_CONTENT = "content"
     }
-
+ //create table
     override fun onCreate(db: SQLiteDatabase?) {
         val createTableQuery = "CREATE TABLE $TABLE_NAME ($COLUMN_ID INTEGER PRIMARY KEY, $COLUMN_TITLE TEXT, $COLUMN_CONTENT TEXT )"
         db?.execSQL(createTableQuery)
     }
 
+    //if we want to upgrade version of the database
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
         val dropTableQuery = "DROP TABLE IF EXISTS $TABLE_NAME"
         db?.execSQL(dropTableQuery)
@@ -36,6 +37,7 @@ class NotesDatabaseHelper (context: Context) : SQLiteOpenHelper(context, DATABAS
 //        db.insert(TABLE_NAME, null, values)
 //        db.close()
 //    }
+    //insert new note
     fun insertNote(note: Note){
         val db = writableDatabase
         val values = ContentValues().apply {
@@ -45,7 +47,7 @@ class NotesDatabaseHelper (context: Context) : SQLiteOpenHelper(context, DATABAS
         db.insert(TABLE_NAME, null, values)
         db.close()
     }
-
+//retrieve all notes from the database
     fun getAllNotes():List<Note>{
         val noteList = mutableListOf<Note>()
         val db = readableDatabase
